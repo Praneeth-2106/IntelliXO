@@ -66,15 +66,18 @@ function playerMove(i) {
     }
 
     if (isDraw()) {
-        statusText.innerText = "Draw";
+        statusText.innerText = "Draw 🤝";
         gameActive = false;
         return;
     }
 
+    statusText.innerText = "Computer thinking...";
     setTimeout(aiMove, 400);
 }
 
 function aiMove() {
+    if (!gameActive) return;
+
     let empty = board.map((v,i)=>v===""?i:null).filter(v=>v!==null);
     let move;
 
@@ -95,9 +98,18 @@ function aiMove() {
         highlightWin(ai);
         computerScore++;
         updateScore();
-        statusText.innerText = "Computer wins";
+        statusText.innerText = "Computer wins 🤖";
         gameActive = false;
+        return;
     }
+
+    if (isDraw()) {
+        statusText.innerText = "Draw 🤝";
+        gameActive = false;
+        return;
+    }
+
+    statusText.innerText = "Your turn";
 }
 
 function bestMove() {
@@ -176,6 +188,6 @@ function isDraw() {
 function restartGame() {
     board = ["","","","","","","","",""];
     gameActive = true;
-    statusText.innerText = "";
+    statusText.innerText = "Your turn";
     createBoard();
 }
